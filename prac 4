@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace LoginApp
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+       
+private void btnRegister_Click(object sender, EventArgs e)
+{
+    lblError.Text = "";
+
+    string username = txtUsername.Text;
+    string password = txtPassword.Text;
+    string confirmPassword = txtConfirmPassword.Text;
+
+    if (string.IsNullOrEmpty(username))
+    {
+        lblError.Text = "Username is required!";
+        return;
+    }
+
+    if (string.IsNullOrEmpty(password))
+    {
+        lblError.Text = "Password is required!";
+        return;
+    }
+
+    if (password.Length < 6)  
+    {
+        lblError.Text = "Password must be at least 6 characters long.";
+        return;
+    }
+
+    if (password != confirmPassword)
+    {
+        lblError.Text = "Passwords do not match!";
+        return;
+    }
+
+   
+    MessageBox.Show("Registration successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+   
+    txtUsername.Clear();
+    txtPassword.Clear();
+    txtConfirmPassword.Clear();
+}
+
+private void txtLoginUsername_TextChanged(object sender, EventArgs e)
+{
+    public Form1()
+{
+    InitializeComponent();
+
+    txtLoginUsername.Visible = false;
+    txtLoginPassword.Visible = false;
+    btnLogin.Visible = false;
+    lblLoginError.Visible = false;
+}
+
+}
+
+
+        }
+    }
