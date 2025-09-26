@@ -1,0 +1,136 @@
+User.cs
+
+using System.ComponentModel.DataAnnotations;
+
+namespace RegistrationApp.Models
+{
+    public class User
+    {
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+    }
+}
+Controllers → UsersController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using RegistrationApp.Models;
+
+namespace RegistrationApp.Controllers
+{
+    public class UsersController : Controller
+    {
+        Registration Form
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+         Form submit
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                return View("Success", user);
+            }
+          
+            return View(user);
+        }
+    }
+}
+Register.cshtml (Form)
+
+@model RegistrationApp.Models.User
+
+<h2>User Registration</h2>
+
+<form asp-action="Register" method="post">
+    <div>
+        <label>Name:</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" style="color:red"></span>
+    </div>
+
+    <div>
+<label>Password:</label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Confirm Password:</label>
+        <input asp-for="ConfirmPassword" type="password" />
+        <span asp-validation-for="ConfirmPassword" style="color:red"></span>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+Success.cshtml (Data Display after Registration)
+
+@model RegistrationApp.Models.User
+
+<h2>Registration Successful!</h2>
+
+<p><strong>Name:</strong> @Model.Name</p>
+<p><strong>Email:</strong> @Model.Email</p>
+Success.cshtml (Data Display after Registration)
+
+@model RegistrationApp.Models.User
+
+<h2>Registration Successful!</h2>
+
+<p><strong>Name:</strong> @Model.Name</p>
+<p><strong>Email:</strong> @Model.Email</p>
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Users}/{action=Register}/{id?}");
+
+app.Run();
